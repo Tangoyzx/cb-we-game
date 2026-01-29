@@ -1,0 +1,10 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2026-01-29T04:41:18.960Z
+provider: 
+---
+
+本项目是个微信小游戏，所有代码规范、配置、架构都必须满足微信小游戏的要求。
+主要语言为javascript。

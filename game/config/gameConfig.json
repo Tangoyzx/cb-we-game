@@ -1,0 +1,21 @@
+{
+  "screen": {
+    "width": 750,
+    "height": 1334
+  },
+  "grid": {
+    "size": 40,
+    "cellSize": 18
+  },
+  "player": {
+    "speed": 200,
+    "size": 16
+  },
+  "ui": {
+    "titleSize": 48,
+    "buttonWidth": 200,
+    "buttonHeight": 150,
+    "buttonSpacing": 20,
+    "buttonsPerPage": 3
+  }
+}

@@ -1,0 +1,26 @@
+# 微信开发者工具生成的文件
+.DS_Store
+node_modules/
+miniprogram_npm/
+
+# 日志文件
+*.log
+npm-debug.log*
+
+# 编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 系统文件
+Thumbs.db
+.DS_Store
+
+# 临时文件
+*.tmp
+*.temp
+
+# 微信小游戏调试文件
+.wxappdevtools/
