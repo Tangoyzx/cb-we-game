@@ -8,13 +8,13 @@ import { GridMoveGame } from './games/GridMove/GridMoveGame.js';
 const canvas = wx.createCanvas();
 const context = canvas.getContext('2d');
 
-// 全局配置
-global.canvas = canvas;
-global.context = context;
+// 全局配置 - 微信小游戏环境使用 GameGlobal 或 window
+GameGlobal.canvas = canvas;
+GameGlobal.context = context;
 
 // 初始化配置管理器
 const configManager = new ConfigManager();
-global.configManager = configManager;
+GameGlobal.configManager = configManager;
 
 // 游戏管理器实例
 let gameManager = null;

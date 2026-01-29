@@ -253,6 +253,9 @@ export class MainMenuGame {
   render() {
     // 清空画布
     this.renderer.clear('#1a1a2e');
+    
+    // 调用ECS世界的渲染系统
+    this.world.render();
   }
   
   /**

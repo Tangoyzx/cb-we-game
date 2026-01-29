@@ -77,6 +77,20 @@ export class World {
   }
   
   /**
+   * 获取拥有所有指定组件的实体
+   * @param {Array<Function>} ComponentClasses - 组件类数组
+   * @returns {Array<Entity>}
+   */
+  getEntitiesWithComponents(ComponentClasses) {
+    return this.entities.filter(entity => {
+      if (!entity.active) return false;
+      return ComponentClasses.every(ComponentClass => 
+        entity.hasComponent(ComponentClass)
+      );
+    });
+  }
+  
+  /**
    * 注册系统
    * @param {System} system - 要注册的系统
    */
@@ -124,6 +138,27 @@ export class World {
     
     // 清理已销毁的实体
     this.entities = this.entities.filter(entity => entity.active);
+  }
+  
+  /**
+   * 渲染世界
+   * 调用所有系统的render方法
+   */
+  render() {
+    // 渲染所有激活的系统
+    for (const system of this.systems) {
+      if (!system.enabled) continue;
+      
+      // 找出符合该系统要求的所有实体
+      const matchingEntities = this.entities.filter(entity => 
+        entity.active && system.matchesEntity(entity)
+      );
+      
+      // 如果系统有render方法，调用它
+      if (typeof system.render === 'function') {
+        system.render(matchingEntities);
+      }
+    }
   }
   
   /**

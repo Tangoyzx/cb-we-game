@@ -52,7 +52,7 @@ export class MovementSystem extends System {
     const distance = Math.sqrt(dx * dx + dy * dy);
     
     // 如果已经很接近目标，直接到达
-    if (distance < 1) {
+    if (distance < 0.5) {  // 降低阈值，更精确
       position.x = movement.targetX;
       position.y = movement.targetY;
       movement.clearTarget();
@@ -68,10 +68,14 @@ export class MovementSystem extends System {
       position.y = movement.targetY;
       movement.clearTarget();
     } else {
-      // 按比例移动
-      const ratio = moveDistance / distance;
-      position.x += dx * ratio;
-      position.y += dy * ratio;
+      // ⚠️ 使用目标方向而不是当前位置计算，保持移动方向稳定
+      // 归一化方向向量
+      const dirX = dx / distance;
+      const dirY = dy / distance;
+      
+      // 按照固定方向移动
+      position.x += dirX * moveDistance;
+      position.y += dirY * moveDistance;
     }
   }
 }

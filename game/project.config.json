@@ -1,7 +1,8 @@
 {
   "description": "太阳鸟游戏 - 微信小游戏合集",
   "packOptions": {
-    "ignore": []
+    "ignore": [],
+    "include": []
   },
   "setting": {
     "urlCheck": false,
@@ -28,17 +29,24 @@
     },
     "useIsolateContext": true,
     "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "compileWorklet": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
   },
   "compileType": "game",
   "libVersion": "2.19.4",
-  "appid": "touristappid",
+  "appid": "wxf069d55e0141520c",
   "projectname": "sunbird-games",
-  "debugOptions": {
-    "hidedInDevtools": []
-  },
-  "scripts": {},
-  "isGameTourist": true,
+  "isGameTourist": false,
   "condition": {
     "search": {
       "current": -1,
@@ -64,5 +72,7 @@
       "current": -1,
       "list": []
     }
-  }
+  },
+  "simulatorPluginLibVersion": {},
+  "editorSetting": {}
 }
