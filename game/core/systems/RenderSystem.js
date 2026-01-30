@@ -93,7 +93,8 @@ export class RenderSystem extends System {
         if (render.text) {
           const fontSize = render.fontSize || 16;
           const textColor = render.color || '#FFFFFF';
-          const align = render.align || 'center';
+          // 兼容 align 和 textAlign 两种写法
+          const align = render.textAlign || render.align || 'center';
           this.renderer.drawText(render.text, x, y, textColor, fontSize, align);
         }
         break;

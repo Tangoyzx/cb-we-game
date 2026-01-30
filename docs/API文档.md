@@ -467,46 +467,52 @@ const touched = inputManager.isCircleTouched(x, y, radius);
 
 ---
 
-### ConfigManager（配置管理器）
+### ConfigManager(配置管理器)
 
 管理游戏配置。
 
 #### 构造函数
 
-\`\`\`javascript
+```javascript
 const configManager = new ConfigManager();
-\`\`\`
+// 配置文件会在构造函数中自动加载
+```
 
-#### 加载配置
+**重要说明**: 配置文件现在使用 `.js` 格式而不是 `.json` 格式。在微信小游戏中必须注意:
+1. ✅ **必须使用** ES6 模块语法: `import` / `export default`
+2. ❌ **不能使用** Node.js 语法: `require` / `module.exports`
+3. 配置文件在 ConfigManager 构造函数中通过 import 自动加载
+4. 这样避免了异步读取文件的问题，更稳定
 
-\`\`\`javascript
-await configManager.loadConfig('config/gameConfig.json');
-\`\`\`
+#### 配置文件位置
+
+- `config/gameConfig.js` - 游戏参数配置
+- `config/resourceConfig.js` - 资源路径配置
 
 #### 获取配置
 
-\`\`\`javascript
+```javascript
 // 获取整个配置对象
 const config = configManager.getConfig('gameConfig');
 
-// 获取特定值（支持路径）
+// 获取特定值(支持路径)
 const gridSize = configManager.get('gameConfig', 'grid.size', 40);
 //                                  配置名      路径        默认值
-\`\`\`
+```
 
 #### 设置配置
 
-\`\`\`javascript
+```javascript
 configManager.set('gameConfig', 'grid.size', 50);
-\`\`\`
+```
 
 #### 检查配置
 
-\`\`\`javascript
+```javascript
 if (configManager.hasConfig('gameConfig')) {
   // 配置存在
 }
-\`\`\`
+```
 
 ---
 
@@ -634,6 +640,19 @@ export class SimpleGame {
 ---
 
 ## 注意事项
+
+### 微信小游戏环境相关
+
+1. **只能使用ES6模块语法**
+   - ✅ 使用 `import` / `export default`
+   - ❌ 不能使用 `require` / `module.exports`
+
+2. **代码压缩问题**
+   - 真机环境会压缩代码，类名会变成单字母
+   - 必须使用**类引用本身**作为Map的key，不能用类名字符串
+   - 例如：`map.set(MyClass, value)` 而不是 `map.set('MyClass', value)`
+
+### ECS架构规范
 
 1. **组件只存数据**：不要在组件中写游戏逻辑
 2. **系统只写逻辑**：不要在系统中存储游戏状态

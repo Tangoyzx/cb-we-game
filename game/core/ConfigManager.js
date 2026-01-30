@@ -6,64 +6,58 @@
  * 就像一个"配置中心"，存储游戏的各种设置
  * 比如：网格大小、角色速度、屏幕尺寸等等
  */
+
+// 导入配置文件 (使用 ES6 模块语法)
+import gameConfig from '../config/gameConfig.js';
+import resourceConfig from '../config/resourceConfig.js';
+
 export class ConfigManager {
   constructor() {
     // 存储所有配置数据
     this.configs = new Map();
+    
+    // 预加载配置文件 (使用 require 直接导入 JS 模块)
+    this._initConfigs();
   }
   
   /**
-   * 加载配置文件
+   * 初始化配置文件
+   * 直接使用导入的配置模块
+   * 在微信小游戏中必须用 import/export，不能用 require/module.exports！
+   * @private
+   */
+  _initConfigs() {
+    try {
+      // 加载游戏配置
+      this.configs.set('gameConfig', gameConfig);
+      console.log('[ConfigManager] 游戏配置加载成功');
+      
+      // 加载资源配置
+      this.configs.set('resourceConfig', resourceConfig);
+      console.log('[ConfigManager] 资源配置加载成功');
+      
+    } catch (error) {
+      console.error('[ConfigManager] 配置加载失败:', error);
+    }
+  }
+  
+  /**
+   * 加载配置文件 (保留这个方法以兼容旧代码)
+   * 但现在配置已经在构造函数中加载了
    * @param {string} path - 配置文件路径
    * @returns {Promise}
    */
   async loadConfig(path) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: path,
-        method: 'GET',
-        success: (res) => {
-          if (res.statusCode === 200) {
-            // 提取文件名作为配置的key
-            const fileName = path.split('/').pop().replace('.json', '');
-            this.configs.set(fileName, res.data);
-            console.log(`配置文件 "${fileName}" 加载成功`);
-            resolve(res.data);
-          } else {
-            reject(new Error(`配置文件加载失败: ${path}`));
-          }
-        },
-        fail: (error) => {
-          // 如果是本地文件系统，尝试使用 FileSystemManager
-          this._loadLocalConfig(path)
-            .then(resolve)
-            .catch(reject);
-        }
-      });
-    });
-  }
-  
-  /**
-   * 从本地文件系统加载配置
-   * @param {string} path - 配置文件路径
-   * @returns {Promise}
-   * @private
-   */
-  async _loadLocalConfig(path) {
-    return new Promise((resolve, reject) => {
-      const fs = wx.getFileSystemManager();
-      try {
-        const data = fs.readFileSync(path, 'utf8');
-        const config = JSON.parse(data);
-        const fileName = path.split('/').pop().replace('.json', '');
-        this.configs.set(fileName, config);
-        console.log(`配置文件 "${fileName}" 从本地加载成功`);
-        resolve(config);
-      } catch (error) {
-        console.error(`本地配置文件加载失败: ${path}`, error);
-        reject(error);
-      }
-    });
+    // 提取文件名作为配置的key
+    const fileName = path.split('/').pop().replace('.json', '').replace('.js', '');
+    const config = this.configs.get(fileName);
+    
+    if (config) {
+      console.log(`配置文件 "${fileName}" 已经加载`);
+      return Promise.resolve(config);
+    } else {
+      return Promise.reject(new Error(`配置文件不存在: ${path}`));
+    }
   }
   
   /**

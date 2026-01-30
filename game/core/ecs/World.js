@@ -7,6 +7,8 @@
  * 它知道游戏里有哪些角色（实体），有哪些工作人员（系统）
  * 每一帧都让所有工作人员去处理它们负责的角色
  */
+import { Entity } from './Entity.js';
+
 export class World {
   constructor() {
     // 存储所有实体
@@ -24,7 +26,6 @@ export class World {
    * @returns {Entity} 新创建的实体
    */
   createEntity() {
-    const Entity = require('./Entity.js').Entity;
     const entity = new Entity();
     this.entities.push(entity);
     return entity;

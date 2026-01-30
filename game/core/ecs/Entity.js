@@ -28,11 +28,12 @@ export class Entity {
    * @param {Component} component - 要添加的组件实例
    */
   addComponent(component) {
-    // 获取组件的类型名称作为key
-    const componentName = component.constructor.name;
+    // 使用组件的构造函数作为key（而不是类名字符串）
+    // 这样可以避免代码压缩后类名变化导致的问题
+    const ComponentClass = component.constructor;
     
     // 将组件存储到Map中
-    this.components.set(componentName, component);
+    this.components.set(ComponentClass, component);
     
     // 设置组件所属的实体ID
     component.entityId = this.id;
@@ -49,8 +50,7 @@ export class Entity {
    * @returns {Component|null} 组件实例或null
    */
   getComponent(ComponentClass) {
-    const componentName = ComponentClass.name;
-    return this.components.get(componentName) || null;
+    return this.components.get(ComponentClass) || null;
   }
   
   /**
@@ -59,8 +59,7 @@ export class Entity {
    * @returns {boolean}
    */
   hasComponent(ComponentClass) {
-    const componentName = ComponentClass.name;
-    return this.components.has(componentName);
+    return this.components.has(ComponentClass);
   }
   
   /**
@@ -68,14 +67,13 @@ export class Entity {
    * @param {Function} ComponentClass - 组件的类
    */
   removeComponent(ComponentClass) {
-    const componentName = ComponentClass.name;
-    const component = this.components.get(componentName);
+    const component = this.components.get(ComponentClass);
     
     if (component) {
       // 调用组件的销毁方法
       component.destroy();
       // 从Map中移除
-      this.components.delete(componentName);
+      this.components.delete(ComponentClass);
     }
     
     return this;

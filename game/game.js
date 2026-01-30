@@ -22,10 +22,7 @@ let gameManager = null;
 // 初始化游戏
 async function init() {
   try {
-    // 加载配置文件
-    await configManager.loadConfig('config/gameConfig.json');
-    await configManager.loadConfig('config/resourceConfig.json');
-    
+    // 配置文件已经在 ConfigManager 构造函数中自动加载了
     console.log('配置加载完成');
     
     // 创建游戏管理器
